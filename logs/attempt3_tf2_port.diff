@@ -1,0 +1,88 @@
+diff --git a/Code/PrivateKT.py b/Code/PrivateKT.py
+index 2058275..71c4c6a 100644
+--- a/Code/PrivateKT.py
++++ b/Code/PrivateKT.py
+@@ -1,5 +1,5 @@
+ import numpy as np 
+-from keras.utils.np_utils import to_categorical
++from tensorflow.keras.utils import to_categorical
+ 
+ def calculate_beta(epsilon,K,num_classes):
+     beta = (np.exp(epsilon/K)-1)/(np.exp(epsilon/K)-1+num_classes)
+@@ -42,7 +42,7 @@ class KnowledgeBuffer():
+ 
+ def importance_sampling(k,model,public_images):
+     # Information entropy
+-    coff = model.predict(public_images)
++    coff = model.predict(public_images, verbose=0)
+     coff = (-coff*np.log(coff+10**(-8))).sum(axis=-1)
+     
+     # Sampling probability
+@@ -73,7 +73,7 @@ def PrivateKT(knowledge_buffer,model,train_users,train_images,train_labels,publi
+             model.fit(x,y,verbose=False)
+         
+         # Computing local model predictions
+-        local_predictions = model.predict(public_images[knowledge_transfer_data])
++        local_predictions = model.predict(public_images[knowledge_transfer_data], verbose=0)
+         local_predictions = local_predictions.argmax(axis=-1)
+ 
+         # Perturb local model predictions
+@@ -98,7 +98,7 @@ def PrivateKT(knowledge_buffer,model,train_users,train_images,train_labels,publi
+         model.train_on_batch(public_images[x],y)    
+         
+     # Self-training
+-    self_predictions = model.predict(public_images)
++    self_predictions = model.predict(public_images, verbose=0)
+     entropy = (-self_predictions*np.log(self_predictions+10**(-8))).sum(axis=-1)
+     prob = np.exp(-entropy)/np.exp(-entropy).sum()
+     self_train_samples = np.random.choice(len(public_images),int(len(public_images)*self_train_ratio),replace=False,p=prob)
+diff --git a/Code/evaluation.py b/Code/evaluation.py
+index cd490ff..2d42166 100644
+--- a/Code/evaluation.py
++++ b/Code/evaluation.py
+@@ -1,6 +1,6 @@
+ import numpy as np 
+ 
+ def evaluation(model,test_images,test_labels):
+-    pred = model.predict(test_images).argmax(axis=-1)
++    pred = model.predict(test_images, verbose=0).argmax(axis=-1)
+     labels = test_labels.argmax(axis=-1)
+     return (pred==labels).mean()
+\ No newline at end of file
+diff --git a/Code/model.py b/Code/model.py
+index f861701..9d6b992 100644
+--- a/Code/model.py
++++ b/Code/model.py
+@@ -1,6 +1,6 @@
+-from keras.layers import *
+-from keras.models import Model, load_model
+-from keras.optimizers import *
++from tensorflow.keras.layers import *
++from tensorflow.keras.models import Model, load_model
++from tensorflow.keras.optimizers import SGD
+ 
+ def get_model(lr):
+     
+@@ -26,7 +26,7 @@ def get_model(lr):
+     model = Model(image_input,logit)
+     
+     model.compile(loss=['categorical_crossentropy'],
+-                      optimizer= SGD(lr=lr),
++                      optimizer= SGD(learning_rate=lr),
+                       metrics=['acc'])
+                       
+     return model
+\ No newline at end of file
+diff --git a/Code/preprocessing.py b/Code/preprocessing.py
+index fcb2c39..c46cee6 100644
+--- a/Code/preprocessing.py
++++ b/Code/preprocessing.py
+@@ -1,7 +1,7 @@
+ import numpy as np
+ import struct
+ import os 
+-from keras.utils.np_utils import to_categorical
++from tensorflow.keras.utils import to_categorical
+ 
+ def load_data(path,mode):
+     if mode == 'train':

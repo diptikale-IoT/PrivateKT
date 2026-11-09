@@ -1,0 +1,10 @@
+seed 0 round 0 acc 0.1843 time 89.1s
+seed 0 round 1 acc 0.1812 time 53.3s
+seed 0 round 2 acc 0.1421 time 53.5s
+seed 0 round 3 acc 0.1846 time 53.8s
+seed 0 round 4 acc 0.2125 time 54.4s
+seed 0 round 5 acc 0.2445 time 44.7s
+seed 0 round 6 acc 0.2781 time 45.5s
+seed 0 round 7 acc 0.2992 time 43.4s
+seed 0 round 8 acc 0.3608 time 45.0s
+seed 0 round 9 acc 0.3953 time 46.7s
