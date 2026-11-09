@@ -35,3 +35,6 @@ Every attempt is kept here, including the failed ones. Full outputs are in `logs
 - Rounds: 500 → `<T>` (Colab time limit).
 - Repetitions: 5 (paper) → 3 seeds.
 - All other hyper-parameters are unchanged.
+## Fresh-clone test
+- <today's date>: cloned the repo into a new Colab notebook (T4 GPU) and ran reproduce_cells.md
+  sections 1–4 with T = 1. All cells ran without errors and produced results/*.csv and fig1.pdf.
