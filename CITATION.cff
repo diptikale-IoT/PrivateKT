@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this reproduction, please cite it as below, and cite the original paper."
+title: "Reproduction of PrivateKT: Differentially Private Knowledge Transfer for Federated Learning"
+version: 1.0.0
+date-released: "<YYYY-MM-DD>"
+repository-code: "https://github.com/<your-username>/PrivateKT"
+license: MIT
+authors:
+  - family-names: "Kale"
+    given-names: "Dipti"
+    affiliation: "K. J. Somaiya School of Engineering, Mumbai"
+    orcid: "https://orcid.org/<0000-0000-0000-0000>"
+references:
+  - type: article
+    title: "Differentially private knowledge transfer for federated learning"
+    authors:
+      - family-names: "Qi"
+        given-names: "Tao"
+      - family-names: "Wu"
+        given-names: "Fangzhao"
+      - family-names: "Wu"
+        given-names: "Chuhan"
+      - family-names: "He"
+        given-names: "Liang"
+      - family-names: "Huang"
+        given-names: "Yongfeng"
+      - family-names: "Xie"
+        given-names: "Xing"
+    journal: "Nature Communications"
+    volume: 14
+    start: 3785
+    year: 2023
+    doi: "10.1038/s41467-023-38794-x"
