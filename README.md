@@ -43,8 +43,8 @@ This repository is a fork of the authors' code. The authors' files in `Code/` we
 ## Differences from the paper
 | Item | Paper / original repo | This reproduction | Reason |
 |---|---|---|---|
-| Framework | TensorFlow 1.13, Keras 2.2.4 | TensorFlow `<2.x>` (`tf.keras`) | old versions do not install on Colab |
-| Training rounds T | 500 (~24 h per README) | `<T>` | free Colab time limit (~1 h) |
+| Framework | TensorFlow 1.13, Keras 2.2.4 | TensorFlow `2.19.0` (`tf.keras`) | old versions do not install on Colab |
+| Training rounds T | 500 (~24 h per README) | `10` | free Colab time limit (~1 h) |
 | Repetitions | 5 | 3 seeds (0, 1, 2) | time limit |
 | Random seed | none set | fixed per run | assignment requirement |
 | `CUDA_VISIBLE_DEVICES="2"` | set in notebook | removed | hides Colab's only GPU |
