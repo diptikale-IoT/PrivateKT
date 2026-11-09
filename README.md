@@ -3,9 +3,9 @@
 ## Overview
 - **Paper:** T. Qi, F. Wu, C. Wu, L. He, Y. Huang, X. Xie, "Differentially private knowledge transfer for federated learning," *Nature Communications*, 14, 3785 (2023).
 - **DOI:** [10.1038/s41467-023-38794-x](https://doi.org/10.1038/s41467-023-38794-x)
-- **Original code:** https://github.com/taoqi98/PrivateKT (MIT licence, kept in `LICENSE`)
+- **Original code:** https://github.com/taoqi98/PrivateKT (MIT licence, kept in `LICENSE`; the authors' original README is in `README_original.md`)
 - **Reproduced result:** Fig. 2, MNIST, Class Non-IID, with local differential privacy (ε = 5). Paper value for PrivateKT: **94.06 %** accuracy.
-- **Outcome:** `<Reproduced / Partly reproduced / Not reproduced>`: `<one-line reason>`
+- **Outcome:** FILL VERDICT (see the rule below the results table)
 
 This repository is a fork of the authors' code. The authors' files in `Code/` were ported to TensorFlow 2 so they run on current Google Colab. I added seeded runs, logs, results and a figure script.
 
@@ -15,17 +15,14 @@ This repository is a fork of the authors' code. The authors' files in `Code/` we
 - The data (MNIST) is included in `demo_data/`, so nothing needs to be downloaded.
 
 ## How to run
-1. Open `reproduce.ipynb` in Colab (File → Open notebook → GitHub → paste this repo URL).
-2. In the first cell, replace `<your-username>` with the account that hosts this repo.
-3. Run all cells in order. The notebook:
-   - records the environment;
-   - re-runs the authors' original instructions and logs the failures;
-   - applies the TensorFlow 2 port;
-   - times one round;
-   - runs 3 seeds;
-   - writes the results and the comparison table;
-   - draws the figure.
-4. To redraw only the figure from the saved results, run `python make_figure.py` from the repository root.
+1. Open a new Google Colab notebook and select **Runtime → Change runtime type → T4 GPU**.
+2. Open [`reproduce_cells.md`](reproduce_cells.md) and copy its four sections into four Colab cells, in order:
+   1. clone this repository;
+   2. port the authors' code to TensorFlow 2 and define `run_privatekt(seed, T)`;
+   3. run 3 seeds with `T = 10` rounds each;
+   4. combine the results and draw the figure.
+3. To redraw only the figure from the saved results, run `python make_figure.py` from the repository root.
+4. To check the code quickly without the full run, set `T = 1` in section 3 (about 1 minute per seed).
 
 ## Expected output
 - `results/seed{0,1,2}.csv`: test accuracy for every round of each seed.
@@ -33,20 +30,26 @@ This repository is a fork of the authors' code. The authors' files in `Code/` we
 - `results/comparison_table.csv`: paper value vs. mine.
 - `fig1.pdf`: accuracy vs. round, with the authors' log and the paper value for comparison.
 - `logs/`: full output of every attempt and run.
-- Runtime: about `<X>` s per round on a T4, so `<T>` rounds × 3 seeds ≈ `<Y>` min.
+- Runtime: about **X** s per round on a T4, so 10 rounds × 3 seeds ≈ **Y** min.  ← FILL X and Y
 
 | Metric | Paper | Mine (mean ± SD, 3 seeds) | Difference (%) |
 |---|---|---|---|
-| Accuracy at round `<T>` (authors' log) | `<value>` | `<value>` | `<value>` |
-| Final accuracy (Fig. 2) | 94.06 | `<value>` | `<value>` |
+| Accuracy at round 10 (authors' log) | 29.79 | FILL mean ± SD | FILL |
+| Final accuracy (Fig. 2, after 500 rounds) | 94.06 | FILL mean ± SD (10 rounds) | FILL |
+
+**Verdict rule** (delete this paragraph after filling in):
+- round-10 mean within about ±2 % of 29.79 → **Partly reproduced**: the learning curve matches the authors' own log at round 10, but only 10 of 500 rounds were run, so the final 94.06 % could not be checked;
+- more than about 2 % away → **Not reproduced at round 10**: give the most likely reason (e.g. the different TensorFlow version, or a different client data split because the original code sets no seed).
+
+![Fig. 1: test accuracy vs. communication round](fig1.pdf)
 
 ## Differences from the paper
 | Item | Paper / original repo | This reproduction | Reason |
 |---|---|---|---|
-| Framework | TensorFlow 1.13, Keras 2.2.4 | TensorFlow `2.19.0` (`tf.keras`) | old versions do not install on Colab |
-| Training rounds T | 500 (~24 h per README) | `10` | free Colab time limit (~1 h) |
+| Framework | TensorFlow 1.13, Keras 2.2.4 | TensorFlow 2.19.0 (`tf.keras`) | old versions do not install on Colab |
+| Training rounds T | 500 (~24 h per README) | 10 | free Colab time limit (~1 h; ~X s per round) |
 | Repetitions | 5 | 3 seeds (0, 1, 2) | time limit |
-| Random seed | none set | fixed per run | assignment requirement |
+| Random seed | none set | fixed per run (seeds 0, 1, 2) | reproducibility |
 | `CUDA_VISIBLE_DEVICES="2"` | set in notebook | removed | hides Colab's only GPU |
 | Other hyper-parameters | ε=5, K=2, B=25, lr=0.05, public ratio 0.2, α=0.5 | unchanged | |
 
