@@ -30,7 +30,7 @@ This repository is a fork of the authors' code. The authors' files in `Code/` we
 - `results/comparison_table.csv`: paper value vs. mine.
 - `fig1.pdf`: accuracy vs. round, with the authors' log and the paper value for comparison.
 - `logs/`: full output of every attempt and run.
-- Runtime: about **X** s per round on a T4, so 10 rounds × 3 seeds ≈ **Y** min.  ← FILL X and Y
+- Runtime: about **53** s per round on a T4 (≈ 49 s after the first round, which includes TensorFlow start-up), so 10 rounds × 3 seeds ≈ **26** min.
 
 | Metric | Paper | Mine (mean ± SD, 3 seeds) | Difference (%) |
 |---|---|---|---|
@@ -47,8 +47,8 @@ to the final value is expected, because 10 rounds were run instead of 500.
 ## Differences from the paper
 | Item | Paper / original repo | This reproduction | Reason |
 |---|---|---|---|
-| Framework | TensorFlow 1.13, Keras 2.2.4 | TensorFlow 2.19.0 (`tf.keras`) | old versions do not install on Colab |
-| Training rounds T | 500 (~24 h per README) | 10 | free Colab time limit (~1 h; ~X s per round) |
+| Training rounds T | 500 (~24 h per README) | 10 | free Colab time limit (~1 h; ~53 s per round) |
+| Training rounds T | 500 (~24 h per README) | 10 | free Colab time limit (~1 h; ~53 s per round) |
 | Repetitions | 5 | 3 seeds (0, 1, 2) | time limit |
 | Random seed | none set | fixed per run (seeds 0, 1, 2) | reproducibility |
 | `CUDA_VISIBLE_DEVICES="2"` | set in notebook | removed | hides Colab's only GPU |
