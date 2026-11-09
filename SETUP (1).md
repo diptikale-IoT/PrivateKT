@@ -10,7 +10,7 @@
 | NumPy | 2.4.6 |
 | GPU | Tesla T4, 15360 MiB |
 | Seeds | 0, 1, 2 (numpy, random, tensorflow) |
-| Rounds per seed (T) | TO FILL after timing |
+| Rounds per seed (T) | 10 |
 
 Package versions: `requirements.txt` (pip freeze, same Colab session).
 Authors' original pins: `requirements_original.txt` (do not install on Python 3.13.16).
