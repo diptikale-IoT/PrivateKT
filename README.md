@@ -5,7 +5,7 @@
 - **DOI:** [10.1038/s41467-023-38794-x](https://doi.org/10.1038/s41467-023-38794-x)
 - **Original code:** https://github.com/taoqi98/PrivateKT (MIT licence, kept in `LICENSE`; the authors' original README is in `README_original.md`)
 - **Reproduced result:** Fig. 2, MNIST, Class Non-IID, with local differential privacy (ε = 5). Paper value for PrivateKT: **94.06 %** accuracy.
-- **Outcome:** FILL VERDICT (see the rule below the results table)
+- **Outcome:** **Partly reproduced.** The TensorFlow 2 port runs and PrivateKT learns under LDP (ε = 5), reaching 39.18 ± 6.22 % after 10 rounds (3 seeds), but this is 31.5 % above the authors' own log at round 10 (29.79 %), and only 10 of the 500 rounds could be run on Colab, so the paper's final 94.06 % could not be checked.
 
 This repository is a fork of the authors' code. The authors' files in `Code/` were ported to TensorFlow 2 so they run on current Google Colab. I added seeded runs, logs, results and a figure script.
 
@@ -34,12 +34,13 @@ This repository is a fork of the authors' code. The authors' files in `Code/` we
 
 | Metric | Paper | Mine (mean ± SD, 3 seeds) | Difference (%) |
 |---|---|---|---|
-| Accuracy at round 10 (authors' log) | 29.79 | FILL mean ± SD | FILL |
-| Final accuracy (Fig. 2, after 500 rounds) | 94.06 | FILL mean ± SD (10 rounds) | FILL |
-
-**Verdict rule** (delete this paragraph after filling in):
-- round-10 mean within about ±2 % of 29.79 → **Partly reproduced**: the learning curve matches the authors' own log at round 10, but only 10 of 500 rounds were run, so the final 94.06 % could not be checked;
-- more than about 2 % away → **Not reproduced at round 10**: give the most likely reason (e.g. the different TensorFlow version, or a different client data split because the original code sets no seed).
+| Accuracy at round 10 (authors' log) | 29.79 | 39.18 ± 6.22 | +31.5 |
+| Final accuracy (Fig. 2, after 500 rounds) | 94.06 | 39.18 ± 6.22 (after 10 rounds) | −58.3 |
+**Why the round-10 values differ.** Accuracy changes quickly in the first rounds: our three seeds alone
+spread by ±6.22 points, and the authors' log is a single run with no fixed seed, so 29.79 % is one random
+draw. Other contributing factors are the different client data split (the original code sets no seed) and
+TensorFlow 2.19 vs. 1.13 (different weight initialisation and optimiser implementation). The −58.3 % gap
+to the final value is expected, because 10 rounds were run instead of 500.
 
 ![Fig. 1: test accuracy vs. communication round](fig1.pdf)
 
